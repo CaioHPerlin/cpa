@@ -1,5 +1,5 @@
 import { plainToInstance } from "class-transformer";
-import { IsEnum, IsInt, IsOptional, Max, Min, validateSync } from "class-validator";
+import { IsEnum, IsInt, IsOptional, IsString, Max, Min, validateSync } from "class-validator";
 
 enum NodeEnv {
   DEVELOPMENT = "development",
@@ -15,6 +15,9 @@ export class EnvironmentVariables {
   @IsOptional()
   @IsEnum(NodeEnv)
   NODE_ENV: NodeEnv = NodeEnv.DEVELOPMENT;
+
+  @IsString()
+  DATABASE_URL: string;
 }
 
 export function validateEnvironmentVariables(config: Record<string, any>): EnvironmentVariables {
