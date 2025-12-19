@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+  module   = "cjs"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  uploadedDocuments Document[]           @relation("Uploader")
+  assignments       DocumentAssignment[]
+}
+
+model Document {
+  id         Int    @id @default(autoincrement())
+  title      String
+  filePath   String
+  uploaderId Int
+  uploader   User   @relation("Uploader", fields: [uploaderId], references: [id])
+
+  assignments DocumentAssignment[]
+  created_at  DateTime             @default(now())
+  updated_at  DateTime             @updatedAt
+}
+
+// (many-to-many)
+model DocumentAssignment {
+  id         Int      @id @default(autoincrement())
+  document   Document @relation(fields: [documentId], references: [id])
+  documentId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  assigned_at DateTime @default(now())
+
+  @@unique([documentId, userId])
+}
