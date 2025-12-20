@@ -6,9 +6,9 @@ import { EnvironmentVariables } from "src/config/environment-variables";
 
 @Injectable()
 export class PrismaService extends PrismaClient {
-	constructor(private configService: ConfigService<EnvironmentVariables>) {
-		const url = configService.get("DATABASE_URL");
-		const adapter = new PrismaBetterSqlite3({ url });
-		super({ adapter });
-	}
+  constructor(private configService: ConfigService<EnvironmentVariables>) {
+    const url = configService.get("DATABASE_URL");
+    const adapter = new PrismaBetterSqlite3({ url });
+    super({ adapter });
+  }
 }
